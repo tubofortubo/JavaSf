@@ -1,5 +1,7 @@
 package com.tubo.linkedlist;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 public class LinkedList<E> {
 
     private class Node {
@@ -158,48 +160,67 @@ public class LinkedList<E> {
 
     /**
      * 删除链表第一个元素
+     *
      * @return
      */
-    public  E  removeFirst(){
-        return  remove(0);
+    public E removeFirst() {
+        return remove(0);
     }
 
     /**
      * 从链表的最后删除一个元素
+     *
      * @return
      */
-    public  E removeLast(){
-        return  remove(size-1);
+    public E removeLast() {
+        return remove(size - 1);
     }
+
+    public void removeElement(E e) {
+        Node prve = dummyHead;
+        while (prve.next != null) {
+            if (prve.next.e.equals(e))
+                break;
+            prve = prve.next;
+        }
+        if (prve.next!=null){
+            Node delNode=prve.next;
+            prve.next=delNode.next;
+            delNode.next=null;
+        }
+    }
+
     /**
-     * 从链表中删除第一个元素
+     * 从链表中删除第index个元素
+     *
      * @param index
      * @return
      */
-    public  E  remove(int index){
-        if (index<0||index>=size)
+    public E remove(int index) {
+        if (index < 0 || index >= size)
             throw new IllegalArgumentException("Remove failed,Index is illegal");
-        Node prve=dummyHead;
+        Node prve = dummyHead;
         for (int i = 0; i < index; i++) {
-            prve=prve.next;
+            prve = prve.next;
         }
-        Node retNode=prve.next;
-        prve.next=retNode.next;
-        retNode.next=null;
+        Node retNode = prve.next;
+        prve.next = retNode.next;
+        retNode.next = null;
         size--;
-        return  retNode.e;
+        return retNode.e;
     }
+
     @Override
     public String toString() {
 
-        StringBuilder res=new StringBuilder();
+        StringBuilder res = new StringBuilder();
 //        Node cur=dummyHead.next;
 //        while (cur!=null){
 //            res.append(cur+"->");
 //            cur=cur.next;
 //        }
-        for (Node cur=dummyHead.next;cur!=null;cur=cur.next)
-            res.append(cur+"->");
+        for (Node cur = dummyHead.next; cur != null; cur = cur.next)
+            res.append(cur + "->");
         res.append("null");
         return res.toString();
     }
