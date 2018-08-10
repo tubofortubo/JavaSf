@@ -1,13 +1,24 @@
 package com.tubo.array;
 
+import javax.jws.soap.SOAPBinding;
+
 public class Array<E> {
 
     private E[] data;
     private int size;
 
+    public Array(E[] arr) {
+        this.data = (E[]) new Object[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            data[i]=arr[i];
+            size=arr.length;
+        }
+    }
+
     /**
      * 构造参数传入数组的容量
      *
+
      * @param capacity
      */
     public Array(int capacity) {
@@ -120,11 +131,11 @@ public class Array<E> {
      * @param index
      * @param e
      */
-    void set(int index, E e) {
+    public void set(int index, E e) {
         if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Get faile,required index<0 and index>=size");
         }
-        data[index].equals(e);
+        data[index]=(e);
     }
 
     /**
@@ -202,6 +213,14 @@ public class Array<E> {
         int index = find(e);
         if (index != -1)
             remove(index);
+    }
+
+    public void swap(int i, int j) {
+        if (i < 0 || i >= size || j < 0 || j >= size)
+            throw new IllegalArgumentException("Index is illegal");
+        E t = data[i];
+        data[i] = data[j];
+        data[j] = t;
     }
 
     @Override
